@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1082485814811",
+    "project_id": "tanker-app-d1d53",
+    "storage_bucket": "tanker-app-d1d53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082485814811:android:4895242b593c53d6102abe",
+        "android_client_info": {
+          "package_name": "com.softologics.tanker_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082485814811-cl7stvp5rhgpe3h96ic6fs0p176s1eia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD68SrLWIBxzbS_bPC4Wzb-FQNOoNhd6q8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082485814811-cl7stvp5rhgpe3h96ic6fs0p176s1eia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
