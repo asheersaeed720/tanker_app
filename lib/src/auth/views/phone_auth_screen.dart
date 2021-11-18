@@ -6,16 +6,16 @@ import 'package:tanker_app/utils/input_decoration.dart';
 import 'package:tanker_app/widgets/custom_async_btn.dart';
 import 'package:tanker_app/widgets/loading_widget.dart';
 
-class LogInScreen extends StatefulWidget {
-  static const String routeName = '/login';
+class PhoneAuthScreen extends StatefulWidget {
+  static const String routeName = '/phone-auth';
 
-  const LogInScreen({Key? key}) : super(key: key);
+  const PhoneAuthScreen({Key? key}) : super(key: key);
 
   @override
-  _LogInScreenState createState() => _LogInScreenState();
+  _PhoneAuthScreenState createState() => _PhoneAuthScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final _authController = Get.find<AuthController>();
@@ -44,29 +44,6 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                     const SizedBox(height: 38.0),
                     _buildPhoneNoField(),
-                    // const SizedBox(height: 18.0),
-                    // _buildPasswordTextField(),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.only(top: 6.0),
-                    //       child: TextButton(
-                    //         onPressed: () {
-                    //           // Get.toNamed(ForgotPasswordScreen.routeName);
-                    //         },
-                    //         child: Text(
-                    //           'Forgot password?',
-                    //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    //                 decoration: TextDecoration.underline,
-                    //                 color: Colors.blue[800],
-                    //                 fontSize: 14.0,
-                    //               ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     const SizedBox(height: 32.0),
                     _authController.disableWhileLoad
                         ? const LoadingWidget()
@@ -83,25 +60,6 @@ class _LogInScreenState extends State<LogInScreen> {
                               }
                             },
                           ),
-                    // const SizedBox(height: 20.0),
-                    // Center(
-                    //   child: Row(
-                    //     children: [
-                    //       const Text("Don't have an account? "),
-                    //       InkWell(
-                    //         onTap: () => Get.toNamed(SignUpScreen.routeName),
-                    //         child: Text(
-                    //           'Register',
-                    //           style: TextStyle(
-                    //             color: Colors.blue[800],
-                    //             fontWeight: FontWeight.bold,
-                    //             decoration: TextDecoration.underline,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -114,6 +72,7 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Widget _buildPhoneNoField() {
     return InternationalPhoneNumberInput(
+      isEnabled: _authController.disableWhileLoad ? false : true,
       onInputChanged: (PhoneNumber number) async {
         var numberWithCode = '';
         if (number.isoCode == 'PK') {
@@ -147,32 +106,6 @@ class _LogInScreenState extends State<LogInScreen> {
       formatInput: false,
       inputBorder: const OutlineInputBorder(),
       inputDecoration: buildTextFieldInputDecoration(context, labelTxt: 'Mobile no'),
-    );
-  }
-
-  Widget _buildPasswordTextField() {
-    return TextFormField(
-      onChanged: (value) {},
-      obscureText: _authController.obscureText,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Required';
-        }
-        return null;
-      },
-      keyboardType: TextInputType.visiblePassword,
-      decoration: buildPasswordInputDecoration(
-        context,
-        labelTxt: 'Password',
-        suffixIcon: GestureDetector(
-          onTap: () {
-            _authController.obscureText = !_authController.obscureText;
-          },
-          child: Icon(
-            _authController.obscureText ? Icons.visibility : Icons.visibility_off,
-          ),
-        ),
-      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tanker_app/src/auth/views/login_screen.dart';
+import 'package:tanker_app/src/auth/views/phone_auth_screen.dart';
 import 'package:tanker_app/src/booking/booking_screen.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class AuthScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return const BookingScreen();
         }
-        return const LogInScreen();
+        return const PhoneAuthScreen();
       },
     );
   }
