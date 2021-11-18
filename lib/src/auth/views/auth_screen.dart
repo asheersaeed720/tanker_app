@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tanker_app/src/auth/views/phone_auth_screen.dart';
-import 'package:tanker_app/src/booking/booking_screen.dart';
+import 'package:tanker_app/src/booking/views/booking_screen.dart';
 
 class AuthScreen extends StatelessWidget {
   static const String routeName = '/auth';

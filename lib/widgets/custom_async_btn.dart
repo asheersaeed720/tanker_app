@@ -46,6 +46,11 @@ class CustomAsyncBtn extends StatelessWidget {
               await onPress();
             },
       showSuccess: false,
+      loadingWidget: const SizedBox(
+        height: 16.0,
+        width: 16.0,
+        child: CircularProgressIndicator(color: Colors.red),
+      ),
       errorWidget: const Text('error'),
       disabled: isDisabled,
       builder: (context, child, callback, _) {

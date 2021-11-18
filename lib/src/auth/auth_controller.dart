@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tanker_app/src/auth/models/user.dart';
 import 'package:tanker_app/src/auth/views/auth_screen.dart';
 import 'package:tanker_app/src/auth/views/otp_verification_screen.dart';
-import 'package:tanker_app/src/booking/booking_screen.dart';
+import 'package:tanker_app/src/booking/views/booking_screen.dart';
 import 'package:tanker_app/src/network_manager.dart';
 import 'package:tanker_app/utils/custom_snack_bar.dart';
 import 'package:tanker_app/utils/display_toast_message.dart';
@@ -18,6 +19,8 @@ class AuthController extends NetworkManager {
   Map<String, dynamic> storedUser = {};
 
   UserModel userFormModel = UserModel();
+
+  TextEditingController pinController = TextEditingController(text: '');
 
   @override
   void onInit() {
@@ -32,9 +35,13 @@ class AuthController extends NetworkManager {
       update();
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: userFormModel.phoneNo,
-        verificationCompleted: (PhoneAuthCredential credential) {
-          FirebaseAuth.instance.signInWithCredential(credential).then((_) {
-            saveUserToFirebase();
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          pinController.text = credential.smsCode ?? '';
+          update();
+          await Future.delayed(const Duration(seconds: 1));
+          log('verificationCompleted ${credential.smsCode}');
+          FirebaseAuth.instance.signInWithCredential(credential).then((_) async {
+            await saveUserToFirebase();
           }).catchError((e) {
             disableWhileLoad = false;
             update();
@@ -60,8 +67,6 @@ class AuthController extends NetworkManager {
           update();
         },
       );
-      disableWhileLoad = false;
-      update();
     } else {
       customSnackBar('Network error', 'Check your internet connection try again later');
     }
@@ -74,8 +79,8 @@ class AuthController extends NetworkManager {
       verificationId: verificationId,
       smsCode: smsCode,
     );
-    FirebaseAuth.instance.signInWithCredential(credential).then((_) {
-      saveUserToFirebase();
+    FirebaseAuth.instance.signInWithCredential(credential).then((_) async {
+      await saveUserToFirebase();
     }).catchError((e) {
       disableWhileLoad = false;
       update();
@@ -94,11 +99,12 @@ class AuthController extends NetworkManager {
     storedUser = GetStorage().read('user');
     await users.doc(uid).set(data);
     disableWhileLoad = false;
+    pinController.clear();
     update();
     Get.offAllNamed(BookingScreen.routeName);
   }
 
-  signOutUser() async {
+  Future<void> signOutUser() async {
     Get.back();
     disableWhileLoad = true;
     update();

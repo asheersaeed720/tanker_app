@@ -23,8 +23,6 @@ class OtpVerificationScreen extends StatefulWidget {
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final _authController = Get.find<AuthController>();
 
-  TextEditingController pinController = TextEditingController(text: '');
-
   late Timer _timer;
   int _start = 120;
 
@@ -33,13 +31,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       const Duration(seconds: 1),
       (Timer timer) {
         if (_start == 0) {
-          setState(() {
-            timer.cancel();
-          });
+          if (mounted) {
+            setState(() {
+              timer.cancel();
+            });
+          }
         } else {
-          setState(() {
-            _start--;
-          });
+          if (mounted) {
+            setState(() {
+              _start--;
+            });
+          }
         }
       },
     );
@@ -111,7 +113,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 const SizedBox(height: 20),
                 PinCodeTextField(
                   autofocus: true,
-                  controller: pinController,
+                  controller: _authController.pinController,
                   hideCharacter: true,
                   highlight: true,
                   highlightColor: Colors.blue,
@@ -161,10 +163,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    pinController.dispose();
-    _timer.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pinController.dispose();
+  //   _timer.cancel();
+  //   super.dispose();
+  // }
 }

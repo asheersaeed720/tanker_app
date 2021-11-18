@@ -4,10 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:tanker_app/src/booking/booking_model.dart';
+import 'package:tanker_app/src/network_manager.dart';
+import 'package:tanker_app/utils/custom_snack_bar.dart';
 import 'package:tanker_app/utils/display_toast_message.dart';
 import 'package:tanker_app/utils/firebase_collection_ref.dart';
 
-class BookingController extends GetxController {
+class BookingController extends NetworkManager {
+  BookingModel bookingFormModel = BookingModel();
+
   final bookingRef = bookings.withConverter<BookingModel>(
     fromFirestore: (snapshot, _) => BookingModel.fromJson(snapshot.data()!),
     toFirestore: (trip, _) => trip.toJson(),
@@ -20,24 +24,29 @@ class BookingController extends GetxController {
         .snapshots();
   }
 
-  Future<void> addBooking(String name, String phoneNo, String tankerType, String address) async {
-    await bookingRef
-        .add(BookingModel(
-      uid: FirebaseAuth.instance.currentUser!.uid,
-      bookingId: DateTime.now().millisecondsSinceEpoch.remainder(100000).toString(),
-      name: name,
-      phoneNo: phoneNo,
-      address: address,
-      tankerType: tankerType,
-      status: 'Pending',
-      createdAt: Timestamp.now(),
-    ))
-        .then((_) {
-      Get.back();
-      // Get.to(() => TripDetailScreen(tripId: trip.id));
-      displayToastMessage('Booking Added');
-    }).catchError((error) {
-      log("Failed to add trip: $error");
-    });
+  Future<void> addBooking() async {
+    if (connectionType != 0) {
+      await bookingRef
+          .add(BookingModel(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        bookingId: DateTime.now().millisecondsSinceEpoch.remainder(100000).toString(),
+        name: bookingFormModel.name,
+        phoneNo: bookingFormModel.phoneNo,
+        houseNo: bookingFormModel.houseNo,
+        block: bookingFormModel.block,
+        area: bookingFormModel.area,
+        gallons: bookingFormModel.gallons,
+        status: 'Pending',
+        createdAt: Timestamp.now(),
+      ))
+          .then((_) {
+        Get.back();
+        displayToastMessage('Booking Added');
+      }).catchError((error) {
+        log("Failed to add trip: $error");
+      });
+    } else {
+      customSnackBar('Network error', 'Check your internet connection try again later');
+    }
   }
 }

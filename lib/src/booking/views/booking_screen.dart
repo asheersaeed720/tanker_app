@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tanker_app/src/booking/add_booking_bottom_sheet.dart';
 import 'package:tanker_app/src/booking/booking_controller.dart';
 import 'package:tanker_app/src/booking/booking_item.dart';
 import 'package:tanker_app/src/booking/booking_model.dart';
+import 'package:tanker_app/src/booking/views/add_booking_screen.dart';
 import 'package:tanker_app/utils/custom_app_bar.dart';
 import 'package:tanker_app/widgets/custom_button.dart';
 import 'package:tanker_app/widgets/loading_widget.dart';
@@ -39,9 +39,7 @@ class BookingScreen extends StatelessWidget {
                           const SizedBox(height: 14.0),
                           CustomButton(
                             btnTxt: 'Add Booking',
-                            onPressed: () {
-                              createOrderBottomSheet(context);
-                            },
+                            onPressed: () => Get.toNamed(AddBookingScreen.routeName),
                           ),
                         ],
                       ),
@@ -63,9 +61,7 @@ class BookingScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {
-          createOrderBottomSheet(context);
-        },
+        onPressed: () => Get.toNamed(AddBookingScreen.routeName),
       ),
     );
   }

@@ -2,7 +2,8 @@ import 'package:get/get.dart';
 import 'package:tanker_app/src/auth/views/auth_screen.dart';
 import 'package:tanker_app/src/auth/views/otp_verification_screen.dart';
 import 'package:tanker_app/src/auth/views/phone_auth_screen.dart';
-import 'package:tanker_app/src/booking/booking_screen.dart';
+import 'package:tanker_app/src/booking/views/add_booking_screen.dart';
+import 'package:tanker_app/src/booking/views/booking_screen.dart';
 
 final List<GetPage<dynamic>> customRoutes = [
   GetPage(
@@ -14,11 +15,16 @@ final List<GetPage<dynamic>> customRoutes = [
     page: () => const PhoneAuthScreen(),
   ),
   GetPage(
+    name: OtpVerificationScreen.routeName,
+    page: () => const OtpVerificationScreen(),
+  ),
+  //! Booking Screens
+  GetPage(
     name: BookingScreen.routeName,
     page: () => const BookingScreen(),
   ),
   GetPage(
-    name: OtpVerificationScreen.routeName,
-    page: () => const OtpVerificationScreen(),
+    name: AddBookingScreen.routeName,
+    page: () => AddBookingScreen(),
   ),
 ];

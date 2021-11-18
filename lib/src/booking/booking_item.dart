@@ -9,7 +9,8 @@ class BookingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedTimeAgo = timeago.format(DateTime.parse('${bookingItem.createdAt.toDate()}'));
+    String name = bookingItem.name ?? '';
+    String formattedTimeAgo = timeago.format(DateTime.parse('${bookingItem.createdAt!.toDate()}'));
     return Container(
       width: 300,
       padding: const EdgeInsets.all(20),
@@ -33,12 +34,13 @@ class BookingItem extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 16, fontWeight: FontWeight.bold, color: Colors.orange),
               ),
-              Text(bookingItem.status),
+              Text('${bookingItem.status}'),
             ],
           ),
-          const SizedBox(height: 15),
+          // const SizedBox(height: 15),
+          const Divider(thickness: 1.0, height: 18.0),
           Text(
-            bookingItem.name,
+            name,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
           ),
           const SizedBox(height: 20),
@@ -49,7 +51,7 @@ class BookingItem extends StatelessWidget {
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 210),
                 child: Text(
-                  bookingItem.address,
+                  '${bookingItem.houseNo} - ${bookingItem.block} - ${bookingItem.area}',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.normal,
@@ -59,18 +61,18 @@ class BookingItem extends StatelessWidget {
               )
             ],
           ),
-          const SizedBox(height: 8.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                'View Details',
-                style: TextStyle(color: Colors.blue[800]),
-                textAlign: TextAlign.end,
-              ),
-              Icon(Icons.arrow_forward, size: 18.0, color: Colors.blue[800])
-            ],
-          ),
+          // const SizedBox(height: 8.0),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     Text(
+          //       'View Details',
+          //       style: TextStyle(color: Colors.blue[800]),
+          //       textAlign: TextAlign.end,
+          //     ),
+          //     Icon(Icons.arrow_forward, size: 18.0, color: Colors.blue[800])
+          //   ],
+          // ),
         ],
       ),
     );
